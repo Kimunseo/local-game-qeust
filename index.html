@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로컬 퀘스트 플래너 - 대전에서의 외로움, 재미있는 미션으로 끝내세요</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #FFFFFF;
+            color: #2C3E50;
+            line-height: 1.7;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.2rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 128, 128, 0.1);
+            z-index: 1000;
+            text-align: center;
+        }
+
+        nav a {
+            color: #008080;
+            text-decoration: none;
+            margin: 0 1.5rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #FF7F50;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #008080 0%, #00A0A0 100%);
+            color: white;
+            padding: 8rem 2rem 6rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="2" fill="white" opacity="0.1"/></svg>') repeat;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100px); }
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero .subtitle {
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-primary {
+            display: inline-block;
+            background: #FF7F50;
+            color: white;
+            padding: 1.2rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(255, 127, 80, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-primary:hover {
+            background: #FF6347;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 127, 80, 0.4);
+        }
+
+        /* Section Styles */
+        section {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            color: #008080;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 4rem;
+            line-height: 1.8;
+        }
+
+        /* Problem Section */
+        .problem-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .problem-card {
+            background: #F8F9FA;
+            padding: 2.5rem;
+            border-radius: 15px;
+            border-left: 5px solid #FF7F50;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 128, 128, 0.15);
+        }
+
+        .problem-card h3 {
+            font-size: 1.4rem;
+            color: #2C3E50;
+            margin-bottom: 1rem;
+        }
+
+        .problem-card p {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        /* Solution Section */
+        .solution-box {
+            background: linear-gradient(135deg, #E0F7F7 0%, #F0FFFF 100%);
+            padding: 3rem;
+            border-radius: 20px;
+            margin-top: 3rem;
+            border: 2px solid #008080;
+        }
+
+        .solution-box h3 {
+            color: #008080;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .value-list {
+            display: grid;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .value-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 128, 128, 0.1);
+        }
+
+        .value-icon {
+            font-size: 2.5rem;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .value-content h4 {
+            color: #008080;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .value-content p {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        /* Benefits Section */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #E0F7F7;
+            transition: all 0.3s;
+        }
+
+        .benefit-card:hover {
+            border-color: #008080;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 128, 128, 0.15);
+        }
+
+        .benefit-number {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            background: #FF7F50;
+            color: white;
+            border-radius: 50%;
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 60px;
+            margin-bottom: 1.5rem;
+        }
+
+        .benefit-card h3 {
+            color: #008080;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Trust Section */
+        .trust-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .trust-item {
+            background: #F8F9FA;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .trust-item .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .trust-item h4 {
+            color: #008080;
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .trust-item p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Pricing Section */
+        .pricing-container {
+            max-width: 800px;
+            margin: 3rem auto;
+            background: linear-gradient(135deg, #FF7F50 0%, #FF6347 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(255, 127, 80, 0.3);
+        }
+
+        .pricing-badge {
+            display: inline-block;
+            background: white;
+            color: #FF7F50;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-table {
+            background: white;
+            color: #2C3E50;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+
+        .pricing-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            padding: 1.5rem;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        .pricing-row:first-child {
+            background: #008080;
+            color: white;
+            font-weight: 700;
+        }
+
+        .pricing-row:last-child {
+            border-bottom: none;
+        }
+
+        .price-original {
+            text-decoration: line-through;
+            color: #999;
+            margin-right: 1rem;
+        }
+
+        .price-special {
+            color: #FF7F50;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #008080 0%, #00A0A0 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .cta-section h2 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-section p {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            opacity: 0.95;
+        }
+
+        .cta-section .highlight {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 2rem 0;
+        }
+
+        .urgency-note {
+            display: inline-block;
+            background: rgba(255, 127, 80, 0.9);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            margin-top: 1rem;
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            nav a {
+                display: block;
+                margin: 0.5rem 0;
+            }
+
+            .pricing-row {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="#problem">문제</a>
+        <a href="#solution">솔루션</a>
+        <a href="#benefits">혜택</a>
+        <a href="#trust">신뢰</a>
+        <a href="#pricing">가격</a>
+        <a href="#cta">신청</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>대전에서의 외로움,<br>이제 '재미있는 미션'으로 끝내세요.</h1>
+        <p class="subtitle">안전이 검증된 커뮤니티에서 <strong>지역 탐험 게임</strong>을 통해<br>진짜 친구를 만날 수 있습니다.</p>
+        <a href="#cta" class="cta-primary">베타 테스터 신청하기 →</a>
+    </div>
+
+    <!-- Problem Section -->
+    <section id="problem">
+        <h2>😥 '대전살이'가 외롭고 불안한 당신의 이야기</h2>
+        <p class="section-subtitle">타지에서 대전으로 왔지만, 퇴근 후 저녁 시간이 텅 비어버리는 것 같지 않으세요?</p>
+        
+        <div class="problem-cards">
+            <div class="problem-card">
+                <h3>⚠️ 온라인 모임의 불안함</h3>
+                <p>기존의 온라인 커뮤니티(오픈채팅, 당근 모임 등)는 신분 불확실성과 불건전한 모임에 대한 걱정 때문에 참여가 망설여집니다.</p>
+            </div>
+            <div class="problem-card">
+                <h3>🧍 고립감 심화</h3>
+                <p>검증된 만남의 장이 없어, 결국 혼밥/혼술로 하루를 마무리하고 고립감이 심해집니다.</p>
+            </div>
+            <div class="problem-card">
+                <h3>💔 흥미 없는 취미 활동</h3>
+                <p>의미 없이 시간만 때우는 모임 대신, 건강하고 몰입할 수 있는 취미 활동을 통해 자연스럽게 관계를 만들고 싶습니다.</p>
+            </div>
+        </div>
+
+        <p style="text-align: center; margin-top: 3rem; font-size: 1.2rem; color: #008080; font-weight: 600;">
+            우리는 알고 있습니다. 당신에게 필요한 건 단순한 모임이 아니라,<br>
+            <strong>안전이 보장된 기반</strong> 위에서 <strong>함께 몰입할 수 있는</strong> 새로운 경험입니다.
+        </p>
+    </section>
+
+    <!-- Solution Section -->
+    <section id="solution">
+        <h2>✨ 지역 게임화 플래너</h2>
+        <p class="section-subtitle">당신의 외로움을 해소하고 건강한 관계를 만들 수 있도록,<br>대전 지역 전체를 활용한 특별한 '로컬 퀘스트'를 기획하고 실행합니다.</p>
+
+        <div class="solution-box">
+            <h3>핵심 가치 제안: 안전하게, 재미있게, 연결되자.</h3>
+            
+            <div class="value-list">
+                <div class="value-item">
+                    <div class="value-icon">✅</div>
+                    <div class="value-content">
+                        <h4>신분/안전 검증</h4>
+                        <p>모든 참가자는 철저한 사전 인증을 통해 신뢰할 수 있는 청년층임을 보장합니다. 불안함을 느낄 필요 없이 안심하고 모임에 집중하세요.</p>
+                    </div>
+                </div>
+                
+                <div class="value-item">
+                    <div class="value-icon">🎮</div>
+                    <div class="value-content">
+                        <h4>몰입도 높은 지역 미션</h4>
+                        <p>대전의 숨겨진 명소, 소상공인 가게 등을 활용한 흥미진진한 팀 미션을 수행하며 자연스럽게 대화하고 협력합니다.</p>
+                    </div>
+                </div>
+                
+                <div class="value-item">
+                    <div class="value-icon">🤝</div>
+                    <div class="value-content">
+                        <h4>자연스러운 관계 형성</h4>
+                        <p>일반적인 '친목 모임'의 어색함을 넘어, 공동의 목표 달성이라는 강력한 연결고리를 통해 빠르게 진짜 관계를 형성합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits">
+        <h2>당신이 '로컬 퀘스트'에서 얻게 될 3가지 중요한 변화</h2>
+        
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-number">1</div>
+                <h3>대전 '인싸' 되기</h3>
+                <p>당신이 살고 있는 지역 자원을 120% 활용하여, 숨겨진 맛집과 명소를 퀘스트를 통해 정복합니다. 이제 타지인 티를 벗고 진정한 대전 로컬로 거듭날 수 있습니다.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-number">2</div>
+                <h3>검증된 건강한 관계</h3>
+                <p>불안한 익명성이 아닌, 안전이 확인된 동료들과 함께 클라이밍, 볼링, 특별 모임 공간 등에서 건강한 취미를 공유합니다.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-number">3</div>
+                <h3>몰입의 재미와 성취감</h3>
+                <p>효율과 재미를 중시하는 전문 플래너가 기획한 미션은 4시간 이상 몰입해도 지루하지 않습니다. 퀘스트를 완수하며 성취감과 팀워크의 기쁨을 동시에 누리세요.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Section -->
+    <section id="trust">
+        <h2>🤝 로컬 퀘스트의 안전망과 실행력</h2>
+        <p class="section-subtitle">우리는 단순한 동호회가 아닌, 체계적인 계획을 가진 전문 프로젝트입니다.</p>
+
+        <div class="trust-items">
+            <div class="trust-item">
+                <div class="icon">🌟</div>
+                <h4>MVP 계획</h4>
+                <p>대전 내 유휴 점포 1곳을 '로컬 퀘스트 베이스캠프'로 활용. 토목공학 기반의 공간 설계 지식을 활용한 안전한 공간 마련.</p>
+            </div>
+            
+            <div class="trust-item">
+                <div class="icon">💡</div>
+                <h4>검증 완료</h4>
+                <p>초기 MVP는 지역 대학 동아리들과의 협력을 통해 기획의 재미와 안전성을 이미 검증받고 있습니다.</p>
+            </div>
+            
+            <div class="trust-item">
+                <div class="icon">🔗</div>
+                <h4>협력 기관</h4>
+                <p>지역 내 지원센터와의 연계를 통한 공간 확보 및 지자체 사업 연계, 시장 상인회와 협력하여 지역 경제 활성화 기여.</p>
+            </div>
+            
+            <div class="trust-item">
+                <div class="icon">👤</div>
+                <h4>전문 기획자</h4>
+                <p>문제 정의/기획 및 프로세스 설계/PM에 강점을 가진 전문 기획자가 모든 퀘스트의 안전성과 효율성을 직접 관리.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing">
+        <h2>🎁 [선착순 30명 한정] 초기 베타 테스터 특별 모집</h2>
+        <p class="section-subtitle">저희의 첫 번째 '로컬 퀘스트'에 참여하여 새로운 네트워킹 문화를 경험할<br>선착순 30명의 용감한 베타 테스터를 모집합니다.</p>
+
+        <div class="pricing-container">
+            <div style="text-align: center;">
+                <span class="pricing-badge">🔥 베타 테스터 특별 혜택</span>
+            </div>
+
+            <div class="pricing-table">
+                <div class="pricing-row">
+                    <div>구분</div>
+                    <div>일반 정가</div>
+                    <div>베타 특별가</div>
+                </div>
+                <div class="pricing-row">
+                    <div><strong>1회 로컬 퀘스트</strong><br>(4시간 이상 몰입형 미션)</div>
+                    <div>30,000원</div>
+                    <div><span class="price-special">15,000원</span><br>(50% 할인)</div>
+                </div>
+                <div class="pricing-row">
+                    <div><strong>제공 혜택</strong></div>
+                    <div colspan="2">정식 퀘스트 참여 + 로컬 베이스캠프 1일 이용권</div>
+                </div>
+                <div class="pricing-row">
+                    <div><strong>참가 조건</strong></div>
+                    <div colspan="2">대전에 거주/취업 중인 20~30대 청년층 (신분 확인 필수)</div>
+                </div>
+            </div>
+
+            <p style="text-align: center; margin-top: 2rem; font-size: 1.1rem;">
+                🔥 <strong>지금 신청하면</strong> 다음 퀘스트에 우선 참여 기회와 함께,<br>
+                퀘스트 성공 시 <strong>지역 소상공인 제휴 할인 쿠폰</strong>을 추가로 드립니다.
+            </p>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta" class="cta-section">
+        <h2>"망설이는 시간만큼,<br>당신의 대전살이는 외로워집니다."</h2>
+        
+        <p>안전하고 믿을 수 있는 환경에서,<br>게임처럼 즐거운 경험을 통해 진짜 친구를 만들 기회.</p>
+        
+        <p class="highlight">온라인 불안함과 오프라인 외로움을<br>지역 게임화 플래너가 만든 퀘스트로 확실하게 해결하세요.</p>
+        
+        <p style="font-size: 1.6rem; font-weight: 700; margin: 2rem 0;">지역의 새로운 연결, 지금 바로 시작하세요!</p>
+        
+        <a href="#" class="cta-primary" style="font-size: 1.4rem; padding: 1.5rem 3.5rem;">👉 퀘스트 참가 신청하기</a>
+        
+        <div class="urgency-note">⏰ 선착순 마감 임박!</div>
+    </section>
+
+    <script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll animation for sections
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
