@@ -1,0 +1,12 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 방 코드(rooms/{room})를 아는 사람만 그 방의 데이터를 읽고 쓸 수 있어요.
+    // 방 목록 자체는 아무도 조회할 수 없어서, 방 코드가 비밀번호 역할을 해요.
+    match /rooms/{room}/{coll}/{doc} {
+      allow read, write: if request.auth != null
+        && room.matches('^[A-Za-z0-9_-]{6,40}$')
+        && coll in ['people', 'profiles', 'att2', 'wake2', 'wakeTimes', 'deposits', 'settles', 'claims'];
+    }
+  }
+}

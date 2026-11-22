@@ -1,0 +1,15 @@
+{
+  "name": "아침 기상 캠스터디",
+  "short_name": "캠스터디",
+  "description": "교시별 출석 체크, 기상 미션, 벌금·예치금, 말일 정산",
+  "lang": "ko",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f5f8",
+  "theme_color": "#d9821a",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
